@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "971966930729",
+    "firebase_url": "https://kadore-e-pagers-default-rtdb.firebaseio.com",
+    "project_id": "kadore-e-pagers",
+    "storage_bucket": "kadore-e-pagers.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971966930729:android:4a7f6f0b78e82460072138",
+        "android_client_info": {
+          "package_name": "com.example.waitapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "971966930729-q5n567mo69r0g3qeldu7l38itrjguiqs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAf2BqYMB8LhCeesD-4zk71aK3euZP4_uY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "971966930729-q5n567mo69r0g3qeldu7l38itrjguiqs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "971966930729-u4t73tn4hsvbkd33grg6khp702e6hm1j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kadore"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
