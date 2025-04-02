@@ -80,6 +80,8 @@ class OrderControlController extends ValueNotifier<OrderControlState> {
     value = value.copyWith(awaitConnect: true, awaitWasCanceled: false);
 
     while (value.awaitConnect) {
+      await Future.delayed(Duration(seconds: 5));
+
       final response = await _ordersUsecase();
       if (response.isRight()) {
         final Order? currentOrder = response.toRight().firstWhereOrNull(
