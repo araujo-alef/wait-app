@@ -267,8 +267,9 @@ class _OrderControlPageState extends State<OrderControlPage> {
 
     await _controller.awaitConnect(orderId);
     Modular.to.pop();
-    if (_controller.value.awaitWasCanceled)
+    if (_controller.value.awaitWasCanceled) {
       await _controller.deleteOrder(documentId);
+    }
     _controller.getOrders();
   }
 
@@ -292,7 +293,7 @@ class _OrderControlPageState extends State<OrderControlPage> {
       return;
     }
 
-    if (mounted) {
+    if (context.mounted) {
       _showError(context, 'Não foi possível excluir o pedido. Tente novamente');
     }
   }

@@ -1,1 +1,45 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"kadore-e-pagers","appId":"1:971966930729:android:4a7f6f0b78e82460072138","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"kadore-e-pagers","appId":"1:971966930729:ios:6c91d1c7b7b20b91072138","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"kadore-e-pagers","configurations":{"android":"1:971966930729:android:4a7f6f0b78e82460072138","ios":"1:971966930729:ios:6c91d1c7b7b20b91072138","web":"1:971966930729:web:c0dc8c3f98e43383072138"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "kadore-e-pagers",
+          "appId": "1:971966930729:android:4a7f6f0b78e82460072138",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "kadore-e-pagers",
+          "appId": "1:971966930729:ios:6c91d1c7b7b20b91072138",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "kadore-e-pagers",
+          "configurations": {
+            "android": "1:971966930729:android:4a7f6f0b78e82460072138",
+            "ios": "1:971966930729:ios:6c91d1c7b7b20b91072138",
+            "web": "1:971966930729:web:c0dc8c3f98e43383072138"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
