@@ -41,10 +41,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
     if (hour.length == 1) hour = '0$hour';
     String minute = time.minute.toString();
     if (minute.length == 1) minute = '0$minute';
-    String second = time.second.toString();
-    if (second.length == 1) second = '0$second';
 
-    return '$hour:$minute:$second';
+    return '$hour:$minute';
   }
 
   @override

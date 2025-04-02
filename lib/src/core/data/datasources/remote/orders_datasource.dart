@@ -11,9 +11,7 @@ abstract class IOrdersDatasource {
 
   Future<Either<OrdersFailure, bool>> delete(String documentId);
 
-  Future<List<OrderModel>> orders({
-    String? partnerId,
-  });
+  Future<List<OrderModel>> orders({String? partnerId});
 
   Future<Either<OrdersFailure, bool>> update({
     required OrderModel order,
@@ -59,16 +57,20 @@ class OrdersDatasource implements IOrdersDatasource {
   }
 
   @override
-  Future<List<OrderModel>> orders({
-    String? partnerId,
-  }) async {
-    CollectionReference instance =
-        FirebaseFirestore.instance.collection(ordersColection);
+  Future<List<OrderModel>> orders({String? partnerId}) async {
+    String partnerId = FirebaseAuth.instance.currentUser!.uid;
+    CollectionReference instance = FirebaseFirestore.instance.collection(
+      ordersColection,
+    );
 
     try {
       final response = await instance.get();
       final List<OrderModel> orders =
-          response.docs.map((doc) => OrderModel.fromJson(doc.data())).toList();
+          response.docs.map((doc) => OrderModel.fromJson(doc.data())).where((
+            order,
+          ) {
+            return order.partnerId == partnerId;
+          }).toList();
       return orders;
     } catch (e) {
       throw Exception(e);

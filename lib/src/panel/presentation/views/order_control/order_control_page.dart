@@ -39,18 +39,18 @@ class _OrderControlPageState extends State<OrderControlPage> {
   void _listenOrders() {
     DatabaseReference ref = FirebaseDatabase.instance.ref().child('orders');
 
-    ref.onValue.listen(
-      (event) {
-        setState(() {
-          value = event.snapshot.value.toString();
-        });
-      },
-    );
+    ref.onValue.listen((event) {
+      setState(() {
+        value = event.snapshot.value.toString();
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width / 100;
+
+    final email = FirebaseAuth.instance.currentUser?.email;
 
     return WillPopScope(
       onWillPop: () async {
@@ -62,6 +62,7 @@ class _OrderControlPageState extends State<OrderControlPage> {
           children: [
             Text(value),
             PanelHeader(
+              userName: email != null ? email.split('@').first : '',
               logout: () async {
                 await _controller.logout();
                 if (FirebaseAuth.instance.currentUser == null) {
@@ -72,7 +73,9 @@ class _OrderControlPageState extends State<OrderControlPage> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 40.0, vertical: 12.0),
+                  horizontal: 40.0,
+                  vertical: 12.0,
+                ),
                 child: Column(
                   children: [
                     Row(
@@ -92,106 +95,110 @@ class _OrderControlPageState extends State<OrderControlPage> {
                     ),
                     const SizedBox(height: 12.0),
                     ValueListenableBuilder(
-                        valueListenable: _controller,
-                        builder: (context, state, child) {
-                          if (state.loading) {
-                            return const Expanded(
-                                child: KadCircularIndicator());
-                          }
+                      valueListenable: _controller,
+                      builder: (context, state, child) {
+                        if (state.loading) {
+                          return const Expanded(child: KadCircularIndicator());
+                        }
 
-                          if (state.error.isNotEmpty) {
-                            return Expanded(
-                              child: SizedBox(
-                                width: width * 50,
-                                child: Center(
-                                  child: message(state.error),
-                                ),
-                              ),
-                            );
-                          }
-
-                          if (state.orders.isEmpty) {
-                            return Expanded(
-                              child: SizedBox(
-                                width: width * 35,
-                                child: Center(
-                                  child: message(
-                                      'Para começar adicione um pedido'),
-                                ),
-                              ),
-                            );
-                          }
-
+                        if (state.error.isNotEmpty) {
                           return Expanded(
-                            child: RawScrollbar(
-                              controller: _scrollController,
-                              thumbVisibility: true,
-                              trackVisibility: true,
-                              trackBorderColor: Colors.transparent,
-                              thumbColor: const Color(0XFFD5D5D5),
-                              trackColor: const Color(0XFFEEEEEE),
-                              radius: const Radius.circular(24.0),
-                              trackRadius: const Radius.circular(24),
-                              child: ScrollConfiguration(
-                                behavior:
-                                    ScrollConfiguration.of(context).copyWith(
-                                  scrollbars: false,
-                                  dragDevices: {
-                                    PointerDeviceKind.touch,
-                                    PointerDeviceKind.mouse,
-                                  },
-                                ),
-                                child: AnimatedBuilder(
-                                    animation: _filterController,
-                                    builder: (context, snapshot) {
-                                      return ListView.separated(
-                                        padding: const EdgeInsets.only(
-                                            top: 8.0, right: 24.0),
-                                        physics: const BouncingScrollPhysics(),
-                                        controller: _scrollController,
-                                        shrinkWrap: true,
-                                        itemCount: orders.length,
-                                        separatorBuilder: (context, index) =>
-                                            const SizedBox(height: 12.0),
-                                        itemBuilder: (_, index) {
-                                          final Order order = orders[index];
+                            child: SizedBox(
+                              width: width * 50,
+                              child: Center(child: message(state.error)),
+                            ),
+                          );
+                        }
 
-                                          return OrderItem(
-                                            order: order,
-                                            onDelete: () => _deleteOrder(
-                                              context,
-                                              order.documentId!,
-                                            ),
-                                            onCall: () => _callOrder(
-                                              context,
-                                              order,
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    }),
+                        if (state.orders.isEmpty) {
+                          return Expanded(
+                            child: SizedBox(
+                              width: width * 35,
+                              child: Center(
+                                child: message(
+                                  'Para começar adicione um pedido',
+                                ),
                               ),
                             ),
                           );
-                        }),
+                        }
+
+                        return Expanded(
+                          child: RawScrollbar(
+                            controller: _scrollController,
+                            thumbVisibility: true,
+                            trackVisibility: true,
+                            trackBorderColor: Colors.transparent,
+                            thumbColor: const Color(0XFFD5D5D5),
+                            trackColor: const Color(0XFFEEEEEE),
+                            radius: const Radius.circular(24.0),
+                            trackRadius: const Radius.circular(24),
+                            child: ScrollConfiguration(
+                              behavior: ScrollConfiguration.of(
+                                context,
+                              ).copyWith(
+                                scrollbars: false,
+                                dragDevices: {
+                                  PointerDeviceKind.touch,
+                                  PointerDeviceKind.mouse,
+                                },
+                              ),
+                              child: AnimatedBuilder(
+                                animation: _filterController,
+                                builder: (context, snapshot) {
+                                  return ListView.separated(
+                                    padding: const EdgeInsets.only(
+                                      top: 8.0,
+                                      right: 24.0,
+                                    ),
+                                    physics: const BouncingScrollPhysics(),
+                                    controller: _scrollController,
+                                    shrinkWrap: true,
+                                    itemCount: orders.length,
+                                    separatorBuilder:
+                                        (context, index) =>
+                                            const SizedBox(height: 12.0),
+                                    itemBuilder: (_, index) {
+                                      final Order order = orders[index];
+
+                                      return OrderItem(
+                                        order: order,
+                                        onDelete:
+                                            () => _deleteOrder(
+                                              context,
+                                              order.documentId!,
+                                            ),
+                                        onCall:
+                                            () => _callOrder(context, order),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
         bottomNavigationBar: ValueListenableBuilder(
-            valueListenable: _controller,
-            builder: (context, state, child) {
-              if (state.loading || state.error.isNotEmpty) {
-                return const SizedBox.shrink();
-              }
+          valueListenable: _controller,
+          builder: (context, state, child) {
+            if (state.loading || state.error.isNotEmpty) {
+              return const SizedBox.shrink();
+            }
 
-              return BottomNavigation(
-                pendingOrdersAmount: state.orders.length,
-                createOrder: () => showCreateOrderAlert(context),
-              );
-            }),
+            return BottomNavigation(
+              pendingOrdersAmount: state.orders.length,
+              createOrder: () => showCreateOrderAlert(context),
+            );
+          },
+        ),
       ),
     );
   }
@@ -216,8 +223,9 @@ class _OrderControlPageState extends State<OrderControlPage> {
               controller: _newOrderController,
               loading: _controller.value.newOrderLoading,
               onFinish: () async {
-                final String documentId =
-                    await _controller.newOrder(_newOrderController.text);
+                final String documentId = await _controller.newOrder(
+                  _newOrderController.text,
+                );
                 Modular.to.pop(documentId);
               },
             );
@@ -234,7 +242,9 @@ class _OrderControlPageState extends State<OrderControlPage> {
     if (documentId.isEmpty) {
       if (context.mounted) {
         _showError(
-            context, 'Não foi possível adicionar o pedido. Tente novamente');
+          context,
+          'Não foi possível adicionar o pedido. Tente novamente',
+        );
         _newOrderController.clear();
         return;
       }
@@ -244,7 +254,9 @@ class _OrderControlPageState extends State<OrderControlPage> {
   }
 
   void shoAwaitClientConnectAlert(
-      BuildContext context, String documentId) async {
+    BuildContext context,
+    String documentId,
+  ) async {
     final String orderId = _newOrderController.text;
 
     _newOrderController.clear();

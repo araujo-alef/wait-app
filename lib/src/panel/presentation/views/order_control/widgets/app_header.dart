@@ -3,11 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class PanelHeader extends StatelessWidget {
   final VoidCallback logout;
+  final String userName;
 
-  const PanelHeader({
-    super.key,
-    required this.logout,
-  });
+  const PanelHeader({super.key, required this.logout, required this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class PanelHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                'Kadore',
+                'WaitApp',
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 24,
@@ -49,7 +47,7 @@ class PanelHeader extends StatelessWidget {
           ),
           const Spacer(flex: 24),
           Text(
-            'TIET-SP',
+            userName.toUpperCase(),
             style: GoogleFonts.inter(
               color: Colors.white,
               fontSize: 16,
@@ -57,21 +55,13 @@ class PanelHeader extends StatelessWidget {
             ),
           ),
           const Spacer(flex: 1),
-          Container(
-            width: 2.0,
-            height: 30.0,
-            color: Colors.white,
-          ),
+          Container(width: 2.0, height: 30.0, color: Colors.white),
           const Spacer(flex: 1),
           InkWell(
             onTap: logout.call,
             child: Row(
               children: [
-                const Icon(
-                  Icons.login,
-                  color: Colors.white,
-                  size: 24.0,
-                ),
+                const Icon(Icons.login, color: Colors.white, size: 24.0),
                 const SizedBox(width: 12.0),
                 Text(
                   'Sair',
