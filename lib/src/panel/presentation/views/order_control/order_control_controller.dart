@@ -58,6 +58,43 @@ class OrderControlController extends ValueNotifier<OrderControlState> {
     return response.isRight();
   }
 
+  Future<void> addNumberOrder(String orderId, String phoneNumber) async {
+    value = value.copyWith(error: '', addNumberLoading: true);
+
+    final response = await _ordersUsecase();
+
+    response.fold((_) => setAddNumberError(), (orders) async {
+      final order = orders.firstWhereOrNull((order) => order.id == orderId);
+
+      if (order == null) {
+        setAddNumberError();
+        return null;
+      }
+
+      final response = await _updateOrderUsecase(
+        order: order.copyWith(
+          clientIdentifiers: [
+            '+55${phoneNumber.replaceAll(RegExp(r'\D'), '')}',
+          ],
+        ),
+      );
+
+      if (response.isLeft()) {
+        setAddNumberError();
+        return;
+      }
+
+      value = value.copyWith(addNumberLoading: false);
+    });
+  }
+
+  void setAddNumberError() {
+    value = value.copyWith(
+      error: 'Não foi possível adicionar telefone, tente novamente',
+      addNumberLoading: false,
+    );
+  }
+
   Future<void> getOrders() async {
     value = value.copyWith(loading: true, error: '');
 
@@ -80,7 +117,7 @@ class OrderControlController extends ValueNotifier<OrderControlState> {
     value = value.copyWith(awaitConnect: true, awaitWasCanceled: false);
 
     while (value.awaitConnect) {
-      await Future.delayed(Duration(seconds: 5));
+      //await Future.delayed(Duration(seconds: 5));
 
       final response = await _ordersUsecase();
       if (response.isRight()) {

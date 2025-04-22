@@ -250,6 +250,19 @@ class _OrderControlPageState extends State<OrderControlPage> {
       }
     }
 
+    if (_controller.value.orders
+        .map((order) => order.id)
+        .contains(_newOrderController.text)) {
+      if (context.mounted) {
+        _showError(
+          context,
+          'Pedido já cadastrado, revise os dados e tente novamente',
+        );
+        _newOrderController.clear();
+        return;
+      }
+    }
+
     if (context.mounted) shoAwaitClientConnectAlert(context, documentId);
   }
 
@@ -270,7 +283,12 @@ class _OrderControlPageState extends State<OrderControlPage> {
           builder: (context, state, child) {
             return AwaitClientConnect(
               orderId: orderId,
+              addNumberLoading: _controller.value.addNumberLoading,
               onCancel: () => _controller.cancelAwaitConnect(documentId),
+              onAddNumber: (phoneNumber) {
+                _controller.addNumberOrder(orderId, phoneNumber);
+              },
+              error: _controller.value.error,
             );
           },
         );

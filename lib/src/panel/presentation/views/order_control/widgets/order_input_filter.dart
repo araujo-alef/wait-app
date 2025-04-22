@@ -59,7 +59,9 @@ class _OrderInputFilterState extends State<OrderInputFilter> {
               child: InkWell(
                 onTap: () => widget.filterController.clear(),
                 child: Icon(
-                  widget.filterController.text.isNotEmpty ? Icons.clear_outlined : Icons.filter_alt_outlined,
+                  widget.filterController.text.isNotEmpty
+                      ? Icons.clear_outlined
+                      : Icons.search_outlined,
                   size: 24,
                   color: const Color(0XFF5B5574),
                 ),

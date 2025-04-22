@@ -12,12 +12,18 @@ class KadButtom extends StatelessWidget {
 
   final double? fontSize;
 
+  final BorderRadius? borderRadius;
+
+  final Widget? child;
+
   const KadButtom({
     super.key,
     this.appearence = KadButtonAppearence.primary,
     this.fontSize,
     required this.label,
     required this.onClick,
+    this.borderRadius,
+    this.child,
   });
 
   @override
@@ -28,19 +34,27 @@ class KadButtom extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: borderRadius ?? BorderRadius.circular(8.0),
         ),
         backgroundColor: appearence.backgroundColor,
         shadowColor: Colors.transparent,
       ),
       onPressed: () => onClick.call(),
-      child: Text(
-        label,
-        style: GoogleFonts.inter(
-          color: appearence.textColor,
-          fontSize: fontSize ?? height * 3,
-          fontWeight: FontWeight.bold,
-        ),
+      child: Builder(
+        builder: (context) {
+          if (child != null) {
+            return child!;
+          }
+
+          return Text(
+            label,
+            style: GoogleFonts.inter(
+              color: appearence.textColor,
+              fontSize: fontSize ?? height * 3,
+              fontWeight: FontWeight.bold,
+            ),
+          );
+        },
       ),
     );
   }

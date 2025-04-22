@@ -4,6 +4,8 @@ class OrderControlState {
   final bool loading;
 
   final bool newOrderLoading;
+  
+  final bool addNumberLoading;
 
   final bool awaitConnect;
 
@@ -16,6 +18,7 @@ class OrderControlState {
   OrderControlState({
     this.loading = false,
     this.newOrderLoading = false,
+    this.addNumberLoading = false,
     this.awaitConnect = true,
     this.awaitWasCanceled = false,
     this.error = '',
@@ -25,6 +28,7 @@ class OrderControlState {
   OrderControlState copyWith({
     bool? loading,
     bool? newOrderLoading,
+    bool? addNumberLoading,
     bool? awaitConnect,
     bool? awaitWasCanceled,
     String? error,
@@ -33,6 +37,7 @@ class OrderControlState {
     return OrderControlState(
       loading: loading ?? this.loading,
       newOrderLoading: newOrderLoading ?? this.newOrderLoading,
+      addNumberLoading: addNumberLoading ?? this.addNumberLoading,
       awaitConnect: awaitConnect ?? this.awaitConnect,
       awaitWasCanceled: awaitWasCanceled ?? this.awaitWasCanceled,
       error: error ?? this.error,

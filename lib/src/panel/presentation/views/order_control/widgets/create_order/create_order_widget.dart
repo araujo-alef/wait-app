@@ -27,7 +27,10 @@ class CreateOrder extends StatelessWidget {
 
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-      contentPadding: EdgeInsets.symmetric(vertical: height * 3, horizontal: width * 2),
+      contentPadding: EdgeInsets.symmetric(
+        vertical: height * 3,
+        horizontal: width * 2,
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -59,13 +62,16 @@ class CreateOrder extends StatelessWidget {
             key: formKey,
             child: TextFormField(
               controller: controller,
+              autofocus: true,
               style: GoogleFonts.inter(
                 color: const Color(0XFF323232),
                 fontSize: height * 3,
                 fontWeight: FontWeight.bold,
               ),
               validator: (value) {
-                if (value!.isEmpty) return 'O código do pedido não pode ser vazio';
+                if (value!.isEmpty) {
+                  return 'O código do pedido não pode ser vazio';
+                }
                 return null;
               },
               cursorColor: const Color(0XFF5B5574),
@@ -167,17 +173,20 @@ class CreateOrder extends StatelessWidget {
                       if (!formKey.currentState!.validate() || loading) return;
                       onFinish();
                     },
-                    child: loading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : Text(
-                            'Confirmar',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
+                    child:
+                        loading
+                            ? const CircularProgressIndicator(
                               color: Colors.white,
-                              fontSize: height * 2.5,
-                              fontWeight: FontWeight.bold,
+                            )
+                            : Text(
+                              'Confirmar',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.inter(
+                                color: Colors.white,
+                                fontSize: height * 2.5,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
                   ),
                 ),
               ],
