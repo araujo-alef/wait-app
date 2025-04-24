@@ -129,8 +129,8 @@ class CreateOrder extends StatelessWidget {
           ),
           SizedBox(height: height * 3),
           _createOrderRowButtons(1, width, height),
-          _createOrderRowButtons(3, width, height),
-          _createOrderRowButtons(6, width, height),
+          _createOrderRowButtons(4, width, height),
+          _createOrderRowButtons(7, width, height),
           Row(
             children: [
               SizedBox(
@@ -174,15 +174,8 @@ class CreateOrder extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: GoogleFonts.inter(
                               color: Colors.white,
-                            )
-                            : Text(
-                              'Confirmar',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.inter(
-                                color: Colors.white,
-                                fontSize: height * 2.5,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              fontSize: height * 2.5,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                 ),

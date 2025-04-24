@@ -73,9 +73,7 @@ class OrderControlController extends ValueNotifier<OrderControlState> {
 
       final response = await _updateOrderUsecase(
         order: order.copyWith(
-          clientIdentifiers: [
-            '+55${phoneNumber.replaceAll(RegExp(r'\D'), '')}',
-          ],
+          clientIdentifiers: ['55${numberTreatment(phoneNumber)}@c.us'],
         ),
       );
 
@@ -86,6 +84,16 @@ class OrderControlController extends ValueNotifier<OrderControlState> {
 
       value = value.copyWith(addNumberLoading: false);
     });
+  }
+
+  String numberTreatment(String numero) {
+    String cleanedNumber = numero.replaceAll(RegExp(r'\D'), '');
+    if (cleanedNumber.length == 11 && cleanedNumber.startsWith('9', 2)) {
+      cleanedNumber =
+          cleanedNumber.substring(0, 2) + cleanedNumber.substring(3);
+    }
+
+    return cleanedNumber;
   }
 
   void setAddNumberError() {
