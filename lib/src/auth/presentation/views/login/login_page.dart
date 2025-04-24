@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'Kadore',
+                      'WaitApp',
                       style: GoogleFonts.inter(
                         color: Colors.white,
                         fontSize: height * 8,
@@ -94,7 +94,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           validator: (value) {
                             if (value!.isEmpty) return 'Campo obrigatório';
-                            if (value.length < 3) return 'Mínimo de 6 caracteres';
+                            if (value.length < 3)
+                              return 'Mínimo de 6 caracteres';
                             return null;
                           },
                           cursorColor: Colors.white,
@@ -132,7 +133,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           validator: (value) {
                             if (value!.isEmpty) return 'Campo obrigatório';
-                            if (value.length < 3) return 'Mínimo de 6 caracteres';
+                            if (value.length < 3)
+                              return 'Mínimo de 6 caracteres';
                             return null;
                           },
                           obscureText: !state.visibility,
@@ -154,11 +156,15 @@ class _LoginPageState extends State<LoginPage> {
                               bottom: 20.0,
                             ),
                             suffixIcon: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24.0,
+                              ),
                               child: InkWell(
                                 onTap: () => controller.changeVisibility(),
                                 child: Icon(
-                                  state.visibility ? Icons.visibility : Icons.visibility_off,
+                                  state.visibility
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                   color: Colors.white,
                                   size: height * 4,
                                 ),
@@ -180,18 +186,19 @@ class _LoginPageState extends State<LoginPage> {
                             shadowColor: Colors.transparent,
                           ),
                           onPressed: login,
-                          child: state.loading
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white,
-                                )
-                              : Text(
-                                  'Entrar',
-                                  style: GoogleFonts.inter(
+                          child:
+                              state.loading
+                                  ? const CircularProgressIndicator(
                                     color: Colors.white,
-                                    fontSize: height * 3,
-                                    fontWeight: FontWeight.w600,
+                                  )
+                                  : Text(
+                                    'Entrar',
+                                    style: GoogleFonts.inter(
+                                      color: Colors.white,
+                                      fontSize: height * 3,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
-                                ),
                         ),
                       ),
                     ],

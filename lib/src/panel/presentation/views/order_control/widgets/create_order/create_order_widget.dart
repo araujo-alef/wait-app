@@ -27,6 +27,7 @@ class CreateOrder extends StatelessWidget {
 
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      backgroundColor: Colors.white,
       contentPadding: EdgeInsets.symmetric(
         vertical: height * 3,
         horizontal: width * 2,
@@ -127,55 +128,51 @@ class CreateOrder extends StatelessWidget {
             ),
           ),
           SizedBox(height: height * 3),
-          SizedBox(
-            width: (width * 27) + 32,
-            child: Wrap(
-              spacing: width * 1,
-              runSpacing: height * 2,
-              children: [
-                ...List.generate(
-                  9,
-                  (index) => SizedBox(
-                    height: height * 8,
-                    width: width * 9,
-                    child: KeyboardButtom(
-                      child: KeyBoardButtomText(text: '${(index + 1)}'),
-                      onClick: () => _setNewDigit('${(index + 1)}'),
-                    ),
+          _createOrderRowButtons(1, width, height),
+          _createOrderRowButtons(3, width, height),
+          _createOrderRowButtons(6, width, height),
+          Row(
+            children: [
+              SizedBox(
+                height: height * 9,
+                width: width * 8,
+                child: KeyboardButtom(
+                  child: Icon(
+                    Icons.backspace,
+                    size: height * 3.25,
+                    color: const Color(0XFF323232),
                   ),
+                  onClick: () => _backspace(),
                 ),
-                SizedBox(
-                  height: height * 8,
-                  width: width * 9,
-                  child: KeyboardButtom(
-                    child: Icon(
-                      Icons.backspace,
-                      size: height * 3.25,
-                      color: const Color(0XFF323232),
-                    ),
-                    onClick: () => _backspace(),
-                  ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: width * 0.8,
+                  vertical: height * 0.8,
                 ),
-                SizedBox(
-                  height: height * 8,
-                  width: width * 9,
-                  child: KeyboardButtom(
-                    child: const KeyBoardButtomText(text: '0'),
-                    onClick: () => _setNewDigit('0'),
-                  ),
+                height: height * 9,
+                width: width * 8,
+                child: KeyboardButtom(
+                  child: const KeyBoardButtomText(text: '0'),
+                  onClick: () => _setNewDigit('0'),
                 ),
-                SizedBox(
-                  height: height * 8,
-                  width: width * 9,
-                  child: KeyboardButtom(
-                    color: const Color(0XFF7764CA),
-                    onClick: () {
-                      if (!formKey.currentState!.validate() || loading) return;
-                      onFinish();
-                    },
-                    child:
-                        loading
-                            ? const CircularProgressIndicator(
+              ),
+              SizedBox(
+                height: height * 9,
+                width: width * 8,
+                child: KeyboardButtom(
+                  color: const Color(0XFF7764CA),
+                  onClick: () {
+                    if (!formKey.currentState!.validate() || loading) return;
+                    onFinish();
+                  },
+                  child:
+                      loading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                            'Confirmar',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
                               color: Colors.white,
                             )
                             : Text(
@@ -187,13 +184,32 @@ class CreateOrder extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                  ),
+                          ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _createOrderRowButtons(int baseNumber, double width, double height) {
+    return Row(
+      children: List.generate(3, (index) {
+        return Container(
+          margin: EdgeInsets.symmetric(
+            horizontal: index == 1 ? width * 0.8 : 0.0,
+            vertical: height * 0.8,
+          ),
+          height: height * 9,
+          width: width * 8,
+          child: KeyboardButtom(
+            child: KeyBoardButtomText(text: '${(index + baseNumber)}'),
+            onClick: () => _setNewDigit('${(index + baseNumber)}'),
+          ),
+        );
+      }),
     );
   }
 
